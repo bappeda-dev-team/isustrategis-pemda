@@ -1,0 +1,12 @@
+CREATE TABLE tb_alasan_kondisi(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    csf_id INT NOT NULL,
+    alasan_kondisi_strategis TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+     CONSTRAINT fk_tb_csf_pohon FOREIGN KEY (csf_id)
+        REFERENCES tb_csf(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+)ENGINE=InnoDB;
