@@ -9,9 +9,16 @@ import (
 	"isustrategisService/helper"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func NewServer(e *echo.Echo) *echo.Echo {
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"*"}, // Atau tentukan domain spesifik, misal: []string{"http://localhost:3000", "https://yourdomain.com"}
+		AllowMethods:     []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.PATCH, echo.OPTIONS},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+		AllowCredentials: true,
+	}))
 	return e
 }
 
