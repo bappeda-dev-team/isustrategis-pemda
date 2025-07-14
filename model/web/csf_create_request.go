@@ -7,12 +7,12 @@ type CsfCreateRequest struct {
 }
 
 type AlasanKondisiCreateRequest struct {
-	CSFid                          int                        `json:"csf_id" validate:"required"`
-	AlasanKondisiStrategis         string                     `json:"alasan_kondisi_strategis" validate:"required"`
-	DataTerukurPendukungPernyataan []DataTerukurCreateRequest `json:"data_terukur_pendukung_pernyataan"`
+	CSFid                          int                        `json:"id" `
+	AlasanKondisiStrategis         string                     `json:"alasan_kondisi_strategis"`
+	DataTerukurPendukungPernyataan []DataTerukurCreateRequest `json:"data_terukur"`
 }
 
 type DataTerukurCreateRequest struct {
-	AlasanKondisiId int    `json:"alasan_kondisi_id" validate:"required"`
-	DataTerukur     string `json:"data_terukur" validate:"required"`
+	AlasanKondisiId int    `json:"id"`
+	DataTerukur     string `json:"data_terukur"`
 }

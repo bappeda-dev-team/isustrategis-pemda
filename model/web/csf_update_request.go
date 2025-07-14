@@ -15,5 +15,5 @@ type AlasanKondisiUpdateRequest struct {
 
 type DataTerukurUpdateRequest struct {
 	Id          int    `json:"id"`
-	DataTerukur string `json:"data_terukur" validate:"required"`
+	DataTerukur string `json:"data_terukur"`
 }
