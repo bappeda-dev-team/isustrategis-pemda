@@ -8,7 +8,7 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-func NewRouter(csfController controller.CsfController) *echo.Echo {
+func NewRouter(csfController controller.CsfController, outcomeController controller.OutcomeController, intermediateController controller.IntermediateController) *echo.Echo {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -22,6 +22,18 @@ func NewRouter(csfController controller.CsfController) *echo.Echo {
 	e.DELETE("/csf/:id", csfController.Delete)
 	e.GET("/csf/detail/:csfId", csfController.FindById)
 	e.GET("/csf/:pohonId", csfController.FindAll)
+
+	e.POST("/outcome", outcomeController.Create)
+	e.PUT("/outcome/:id", outcomeController.Update)
+	e.DELETE("/outcome/:id", outcomeController.Delete)
+	e.GET("/outcome/detail/:id", outcomeController.FindById)
+	e.GET("/outcome/:pohonId", outcomeController.FindAll)
+
+	e.POST("/intermediate", intermediateController.Create)
+	e.PUT("/intermediate/:id", intermediateController.Update)
+	e.DELETE("/intermediate/:pohon_id", intermediateController.Delete)
+	e.GET("/intermediate/detail/:id", intermediateController.FindById)
+	e.GET("/intermediate/:pohon_id", intermediateController.FindAll)
 
 	return e
 }

@@ -25,7 +25,13 @@ func InitializedServer() *echo.Echo {
 	validate := validator.New(v...)
 	csfServiceImpl := service.NewCsfServiceImpl(csfRepositoryImpl, db, validate)
 	csfControllerImpl := controller.NewCsfControllerImpl(csfServiceImpl)
-	echoEcho := app.NewRouter(csfControllerImpl)
+	outcomeRepositoryImpl := repository.NewOutcomeRepositoryImpl()
+	outcomeServiceImpl := service.NewOutcomeServiceImpl(outcomeRepositoryImpl, db)
+	outcomeControllerImpl := controller.NewOutcomeControllerImpl(outcomeServiceImpl)
+	intermediateRepositoryImpl := repository.NewIntermediateRepositoryImpl()
+	intermediateServiceImpl := service.NewIntermediateServiceImpl(intermediateRepositoryImpl, db)
+	intermediateControllerImpl := controller.NewIntermediateControllerImpl(intermediateServiceImpl)
+	echoEcho := app.NewRouter(csfControllerImpl, outcomeControllerImpl, intermediateControllerImpl)
 	return echoEcho
 }
 
@@ -36,3 +42,7 @@ var (
 // injector.go:
 
 var csfSet = wire.NewSet(repository.NewCsfRepositoryImpl, wire.Bind(new(repository.CsfRepository), new(*repository.CsfRepositoryImpl)), service.NewCsfServiceImpl, wire.Bind(new(service.CsfService), new(*service.CsfServiceImpl)), controller.NewCsfControllerImpl, wire.Bind(new(controller.CsfController), new(*controller.CsfControllerImpl)))
+
+var outcomeSet = wire.NewSet(repository.NewOutcomeRepositoryImpl, wire.Bind(new(repository.OutcomeRepository), new(*repository.OutcomeRepositoryImpl)), service.NewOutcomeServiceImpl, wire.Bind(new(service.OutcomeService), new(*service.OutcomeServiceImpl)), controller.NewOutcomeControllerImpl, wire.Bind(new(controller.OutcomeController), new(*controller.OutcomeControllerImpl)))
+
+var intermediateSet = wire.NewSet(repository.NewIntermediateRepositoryImpl, wire.Bind(new(repository.IntermediateRepository), new(*repository.IntermediateRepositoryImpl)), service.NewIntermediateServiceImpl, wire.Bind(new(service.IntermediateService), new(*service.IntermediateServiceImpl)), controller.NewIntermediateControllerImpl, wire.Bind(new(controller.IntermediateController), new(*controller.IntermediateControllerImpl)))

@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API For Permasalahan \u0026 Isu Strategis Services",
-        "title": "Permasalahan \u0026 Isu Strategis Service API",
+        "description": "API For Isu Strategis Pemda",
+        "title": "Isu Strategis Pemda",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
@@ -18,9 +18,9 @@
     "host": "${HOST}:${PORT}",
     "basePath": "/",
     "paths": {
-        "/isu_strategis": {
+        "/csf": {
             "post": {
-                "description": "Create a new isu strategis",
+                "description": "Create Csf",
                 "consumes": [
                     "application/json"
                 ],
@@ -28,448 +28,25 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Isu Strategis Service"
+                    "Csf"
                 ],
-                "summary": "Create Isu Strategis",
+                "summary": "Create Csf",
                 "parameters": [
                     {
-                        "description": "Create Isu Strategis",
-                        "name": "isu_strategis",
+                        "description": "Csf",
+                        "name": "csf",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/web.IsuStrategisCreateRequest"
+                            "$ref": "#/definitions/web.CsfCreateRequest"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/isu_strategis/{id}": {
-            "get": {
-                "description": "FindById a isu strategis",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Isu Strategis Service"
-                ],
-                "summary": "FindById Isu Strategis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Isu Strategis ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update a isu strategis",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Isu Strategis Service"
-                ],
-                "summary": "Update Isu Strategis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Isu Strategis ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update Isu Strategis",
-                        "name": "isu_strategis",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/web.IsuStrategisUpdateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/isu_strategis/{kode_opd}/{tahun_awal}/{tahun_akhir}": {
-            "get": {
-                "description": "FindAll a isu strategis",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Isu Strategis Service"
-                ],
-                "summary": "FindAll Isu Strategis",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Kode OPD",
-                        "name": "kode_opd",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Tahun Awal",
-                        "name": "tahun_awal",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Tahun Akhir",
-                        "name": "tahun_akhir",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/web.WebResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/web.IsuStrategisResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/permasalahan": {
-            "post": {
-                "description": "Create a new permasalahan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permasalahan Service"
-                ],
-                "summary": "Create Permasalahan",
-                "parameters": [
-                    {
-                        "description": "Create Permasalahan",
-                        "name": "permasalahan",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/web.PermasalahanCreateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/permasalahan/{id}": {
-            "get": {
-                "description": "FindById an existing permasalahan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permasalahan Service"
-                ],
-                "summary": "FindById Permasalahan",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Permasalahan ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/web.WebResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/web.PermasalahanResponsesbyId"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update a permasalahan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permasalahan Service"
-                ],
-                "summary": "Update Permasalahan",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Permasalahan ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update Permasalahan",
-                        "name": "permasalahan",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/web.PermasalahanUpdateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete an existing permasalahan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permasalahan Service"
-                ],
-                "summary": "Delete Permasalahan",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Permasalahan ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/permasalahan/{kode_opd}/{tahun}": {
-            "get": {
-                "description": "FindAll an existing permasalahan",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permasalahan Service"
-                ],
-                "summary": "FindAll Permasalahan",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Kode OPD",
-                        "name": "kode_opd",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Tahun",
-                        "name": "tahun",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/web.WebResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/web.ChildResponse"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     },
                     "400": {
@@ -489,445 +66,105 @@
         }
     },
     "definitions": {
-        "web.ChildResponse": {
+        "web.AlasanKondisiCreateRequest": {
             "type": "object",
             "properties": {
-                "childs": {
+                "alasan_kondisi_strategis": {
+                    "type": "string"
+                },
+                "data_terukur": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/web.ChildResponse"
+                        "$ref": "#/definitions/web.DataTerukurCreateRequest"
                     }
                 },
                 "id": {
                     "type": "integer"
-                },
-                "id_permasalahan": {
-                    "type": "integer"
-                },
-                "is_permasalahan": {
-                    "type": "boolean"
-                },
-                "jenis_masalah": {
-                    "type": "string"
-                },
-                "level_pohon": {
-                    "type": "integer"
-                },
-                "nama_pohon": {
-                    "type": "string"
-                },
-                "parent": {
-                    "type": "integer"
-                },
-                "perangkat_daerah": {
-                    "$ref": "#/definitions/web.PerangkatDaerah"
-                },
-                "permasalahan_terpilih": {
-                    "type": "boolean"
-                },
-                "status": {
-                    "type": "string"
                 }
             }
         },
-        "web.DataDukungRequest": {
+        "web.AlasanKondisiUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "alasan_kondisi_strategis": {
+                    "type": "string"
+                },
+                "data_terukur": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/web.DataTerukurUpdateRequest"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "web.CsfCreateRequest": {
             "type": "object",
             "required": [
-                "data_dukung",
-                "narasi_data_dukung"
+                "pernyataan_kondisi_strategis",
+                "pohon_id"
             ],
             "properties": {
-                "data_dukung": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
+                "alasan_kondisi": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/web.JumlahDataRequest"
+                        "$ref": "#/definitions/web.AlasanKondisiCreateRequest"
                     }
                 },
-                "narasi_data_dukung": {
+                "pernyataan_kondisi_strategis": {
                     "type": "string"
                 },
-                "permasalahan_opd_id": {
+                "pohon_id": {
                     "type": "integer"
                 }
             }
         },
-        "web.DataDukungResponse": {
-            "type": "object",
-            "properties": {
-                "data_dukung": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.JumlahDataResponse"
-                    }
-                },
-                "narasi_data_dukung": {
-                    "type": "string"
-                },
-                "permasalahan_opd_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "web.DataDukungUpdateRequest": {
-            "type": "object",
-            "properties": {
-                "data_dukung": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.JumlahDataUpdateRequest"
-                    }
-                },
-                "narasi_data_dukung": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.IsuStrategisCreateRequest": {
-            "description": "Request Isu Strategis Create",
-            "type": "object",
-            "required": [
-                "isu_strategis",
-                "kode_bidang_urusan",
-                "kode_opd",
-                "nama_bidang_urusan",
-                "nama_opd",
-                "tahun_akhir",
-                "tahun_awal"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "isu_strategis": {
-                    "type": "string"
-                },
-                "kode_bidang_urusan": {
-                    "type": "string"
-                },
-                "kode_opd": {
-                    "type": "string"
-                },
-                "nama_bidang_urusan": {
-                    "type": "string"
-                },
-                "nama_opd": {
-                    "type": "string"
-                },
-                "permasalahan_opd": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.PermasalahanOpdRequest"
-                    }
-                },
-                "tahun_akhir": {
-                    "type": "string"
-                },
-                "tahun_awal": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.IsuStrategisResponse": {
-            "description": "Response Isu Strategis",
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "isu_strategis": {
-                    "type": "string"
-                },
-                "kode_bidang_urusan": {
-                    "type": "string"
-                },
-                "kode_opd": {
-                    "type": "string"
-                },
-                "nama_bidang_urusan": {
-                    "type": "string"
-                },
-                "nama_opd": {
-                    "type": "string"
-                },
-                "permasalahan_opd": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.PermasalahanResponse"
-                    }
-                },
-                "tahun_akhir": {
-                    "type": "string"
-                },
-                "tahun_awal": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.IsuStrategisUpdateRequest": {
-            "description": "Request Isu Strategis Update",
+        "web.CsfUpdateRequest": {
             "type": "object",
             "required": [
                 "id",
-                "isu_strategis",
-                "kode_bidang_urusan",
-                "kode_opd",
-                "nama_bidang_urusan",
-                "nama_opd",
-                "tahun_akhir",
-                "tahun_awal"
+                "pernyataan_kondisi_strategis",
+                "pohon_id"
             ],
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "isu_strategis": {
-                    "type": "string"
-                },
-                "kode_bidang_urusan": {
-                    "type": "string"
-                },
-                "kode_opd": {
-                    "type": "string"
-                },
-                "nama_bidang_urusan": {
-                    "type": "string"
-                },
-                "nama_opd": {
-                    "type": "string"
-                },
-                "permasalahan_opd": {
+                "alasan_kondisi": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/web.PermasalahanIsuStrategisUpdateRequest"
-                    }
-                },
-                "tahun_akhir": {
-                    "type": "string"
-                },
-                "tahun_awal": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.JumlahDataRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "id_data_dukung": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
-                    "type": "number"
-                },
-                "satuan": {
-                    "type": "string"
-                },
-                "tahun": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.JumlahDataResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "id_data_dukung": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
-                    "type": "number"
-                },
-                "satuan": {
-                    "type": "string"
-                },
-                "tahun": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.JumlahDataUpdateRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "jumlah_data": {
-                    "type": "number"
-                },
-                "satuan": {
-                    "type": "string"
-                },
-                "tahun": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.PerangkatDaerah": {
-            "type": "object",
-            "properties": {
-                "kode_opd": {
-                    "type": "string"
-                },
-                "nama_opd": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.PermasalahanCreateRequest": {
-            "description": "Request Permasalahan Create",
-            "type": "object",
-            "required": [
-                "jenis_masalah",
-                "kode_opd",
-                "level_pohon",
-                "nama_opd",
-                "permasalahan",
-                "pokin_id",
-                "tahun"
-            ],
-            "properties": {
-                "jenis_masalah": {
-                    "description": "enum:MASALAH_POKOK,MASALAH,AKAR_MASALAH",
-                    "type": "string"
-                },
-                "kode_opd": {
-                    "type": "string"
-                },
-                "level_pohon": {
-                    "type": "integer"
-                },
-                "nama_opd": {
-                    "type": "string"
-                },
-                "permasalahan": {
-                    "type": "string"
-                },
-                "pokin_id": {
-                    "type": "integer"
-                },
-                "tahun": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.PermasalahanIsuStrategisUpdateRequest": {
-            "type": "object",
-            "properties": {
-                "data_dukung": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.DataDukungUpdateRequest"
-                    }
-                },
-                "permasalahan_opd_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "web.PermasalahanOpdRequest": {
-            "type": "object",
-            "properties": {
-                "data_dukung": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.DataDukungRequest"
-                    }
-                },
-                "id_permasalahan": {
-                    "type": "integer"
-                }
-            }
-        },
-        "web.PermasalahanResponse": {
-            "type": "object",
-            "properties": {
-                "data_dukung": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/web.DataDukungResponse"
+                        "$ref": "#/definitions/web.AlasanKondisiUpdateRequest"
                     }
                 },
                 "id": {
                     "type": "integer"
                 },
-                "jenis_masalah": {
+                "pernyataan_kondisi_strategis": {
                     "type": "string"
                 },
-                "level_pohon": {
+                "pohon_id": {
                     "type": "integer"
-                },
-                "masalah": {
-                    "type": "string"
                 }
             }
         },
-        "web.PermasalahanResponsesbyId": {
+        "web.DataTerukurCreateRequest": {
             "type": "object",
             "properties": {
+                "data_terukur": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
-                },
-                "level_pohon": {
-                    "type": "integer"
-                },
-                "nama_pohon": {
-                    "type": "string"
                 }
             }
         },
-        "web.PermasalahanUpdateRequest": {
-            "description": "Update Request Permasalahan",
+        "web.DataTerukurUpdateRequest": {
             "type": "object",
-            "required": [
-                "kode_opd",
-                "level_pohon",
-                "nama_opd",
-                "permasalahan",
-                "tahun"
-            ],
             "properties": {
+                "data_terukur": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
-                },
-                "kode_opd": {
-                    "type": "string"
-                },
-                "level_pohon": {
-                    "type": "integer"
-                },
-                "nama_opd": {
-                    "type": "string"
-                },
-                "permasalahan": {
-                    "type": "string"
-                },
-                "tahun": {
-                    "type": "string"
                 }
             }
         },

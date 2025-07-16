@@ -15,9 +15,9 @@ func NewServer(e *echo.Echo) *echo.Echo {
 	return e
 }
 
-// @title Permasalahan & Isu Strategis Service API
+// @title Isu Strategis Pemda
 // @version 1.0
-// @description API For Permasalahan & Isu Strategis Services
+// @description API For Isu Strategis Pemda
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support

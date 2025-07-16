@@ -9,26 +9,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type CsfControllerImpl struct {
-	CsfService service.CsfService
+type OutcomeControllerImpl struct {
+	outcomeService service.OutcomeService
 }
 
-func NewCsfControllerImpl(csfService service.CsfService) *CsfControllerImpl {
-	return &CsfControllerImpl{CsfService: csfService}
+func NewOutcomeControllerImpl(outcomeService service.OutcomeService) *OutcomeControllerImpl {
+	return &OutcomeControllerImpl{outcomeService: outcomeService}
 }
 
-// @Summary Create Csf
-// @Description Create Csf
-// @Tags Csf
-// @Accept json
-// @Produce json
-// @Param csf body web.CsfCreateRequest true "Csf"
-// @Success 201 {object} web.WebResponse
-// @Failure 400 {object} web.WebResponse
-// @Failure 500 {object} web.WebResponse
-// @Router /csf [post]
-func (controller *CsfControllerImpl) Create(c echo.Context) error {
-	request := web.CsfCreateRequest{}
+func (controller *OutcomeControllerImpl) Create(c echo.Context) error {
+	request := web.OutcomeCreateRequest{}
 	err := c.Bind(&request)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, web.WebResponse{
@@ -38,7 +28,7 @@ func (controller *CsfControllerImpl) Create(c echo.Context) error {
 		})
 	}
 
-	response, err := controller.CsfService.Create(c.Request().Context(), request)
+	response, err := controller.outcomeService.Create(c.Request().Context(), request)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,
@@ -49,68 +39,14 @@ func (controller *CsfControllerImpl) Create(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, web.WebResponse{
 		Code:   http.StatusCreated,
-		Status: "Success Create Csf",
-		Data:   response,
-	})
-
-}
-
-// @Summary Update Csf
-// @Description Update Csf
-// @Tags Csf
-// @Accept json
-// @Produce json
-// @Param id path int true "Csf ID"
-// @Param csf body web.CsfUpdateRequest true "Csf"
-func (controller *CsfControllerImpl) Update(c echo.Context) error {
-	request := web.CsfUpdateRequest{}
-	err := c.Bind(&request) // Tambahkan ini untuk bind JSON request ke struct
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
-
-	id := c.Param("id")
-	idInt, err := strconv.Atoi(id)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
-
-	request.Id = idInt
-
-	response, err := controller.CsfService.Update(c.Request().Context(), request)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, web.WebResponse{
-			Code:   http.StatusInternalServerError,
-			Status: "INTERNAL SERVER ERROR",
-			Data:   err.Error(),
-		})
-	}
-
-	return c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "Success Update Csf",
+		Status: "Success Create Outcome",
 		Data:   response,
 	})
 }
 
-// @Summary Delete Csf
-// @Description Delete Csf
-// @Tags Csf
-// @Accept json
-// @Produce json
-// @Param csfId path int true "Csf ID"
-// @Success 200 {object} web.WebResponse
-func (controller *CsfControllerImpl) Delete(c echo.Context) error {
-	csfId := c.Param("csfId")
-	csfIdInt, err := strconv.Atoi(csfId)
+func (controller *OutcomeControllerImpl) Update(c echo.Context) error {
+	request := web.OutcomeUpdateRequest{}
+	err := c.Bind(&request)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, web.WebResponse{
 			Code:   http.StatusBadRequest,
@@ -118,7 +54,17 @@ func (controller *CsfControllerImpl) Delete(c echo.Context) error {
 			Data:   err.Error(),
 		})
 	}
-	err = controller.CsfService.Delete(c.Request().Context(), csfIdInt)
+
+	request.Id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   err.Error(),
+		})
+	}
+
+	response, err := controller.outcomeService.Update(c.Request().Context(), request)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,
@@ -129,54 +75,13 @@ func (controller *CsfControllerImpl) Delete(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, web.WebResponse{
 		Code:   http.StatusOK,
-		Status: "Success Delete Csf",
-		Data:   nil,
-	})
-}
-
-// @Summary Find Csf By Id
-// @Description Find Csf By Id
-// @Tags Csf
-// @Accept json
-// @Produce json
-// @Param csfId path int true "Csf ID"
-// @Success 200 {object} web.WebResponse
-func (controller *CsfControllerImpl) FindById(c echo.Context) error {
-	csfId := c.Param("csfId")
-	csfIdInt, err := strconv.Atoi(csfId)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
-	response, err := controller.CsfService.FindById(c.Request().Context(), csfIdInt)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, web.WebResponse{
-			Code:   http.StatusInternalServerError,
-			Status: "INTERNAL SERVER ERROR",
-			Data:   err.Error(),
-		})
-	}
-
-	return c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "Success Find Csf By Id",
+		Status: "Success Update Outcome",
 		Data:   response,
 	})
 }
 
-// @Summary Find All Csf
-// @Description Find All Csf
-// @Tags Csf
-// @Accept json
-// @Produce json
-// @Param pohonId path int true "Pohon ID"
-// @Success 200 {object} web.WebResponse
-func (controller *CsfControllerImpl) FindAll(c echo.Context) error {
-	pohonId := c.Param("pohonId")
-	pohonIdInt, err := strconv.Atoi(pohonId)
+func (controller *OutcomeControllerImpl) Delete(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, web.WebResponse{
 			Code:   http.StatusBadRequest,
@@ -185,7 +90,7 @@ func (controller *CsfControllerImpl) FindAll(c echo.Context) error {
 		})
 	}
 
-	response, err := controller.CsfService.FindAll(c.Request().Context(), pohonIdInt)
+	err = controller.outcomeService.Delete(c.Request().Context(), id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,
@@ -196,7 +101,58 @@ func (controller *CsfControllerImpl) FindAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, web.WebResponse{
 		Code:   http.StatusOK,
-		Status: "Success Find All Csf",
+		Status: "Success Delete Outcome",
+	})
+}
+
+func (controller *OutcomeControllerImpl) FindById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   err.Error(),
+		})
+	}
+
+	response, err := controller.outcomeService.FindById(c.Request().Context(), id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, web.WebResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "INTERNAL SERVER ERROR",
+			Data:   err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, web.WebResponse{
+		Code:   http.StatusOK,
+		Status: "Success Find Outcome",
+		Data:   response,
+	})
+}
+
+func (controller *OutcomeControllerImpl) FindAll(c echo.Context) error {
+	pohonId, err := strconv.Atoi(c.Param("pohonId"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   err.Error(),
+		})
+	}
+
+	response, err := controller.outcomeService.FindAll(c.Request().Context(), pohonId)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, web.WebResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "INTERNAL SERVER ERROR",
+			Data:   err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, web.WebResponse{
+		Code:   http.StatusOK,
+		Status: "Success Find All Outcome",
 		Data:   response,
 	})
 }
