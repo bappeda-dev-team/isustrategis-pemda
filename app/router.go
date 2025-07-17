@@ -19,7 +19,7 @@ func NewRouter(csfController controller.CsfController, outcomeController control
 
 	e.POST("/csf", csfController.Create)
 	e.PUT("/csf/:id", csfController.Update)
-	e.DELETE("/csf/:id", csfController.Delete)
+	e.DELETE("/csf/:idPohon", csfController.Delete)
 	e.GET("/csf/detail/:csfId", csfController.FindById)
 	e.GET("/csf/:pohonId", csfController.FindAll)
 

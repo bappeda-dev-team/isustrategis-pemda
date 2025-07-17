@@ -109,8 +109,8 @@ func (controller *CsfControllerImpl) Update(c echo.Context) error {
 // @Param csfId path int true "Csf ID"
 // @Success 200 {object} web.WebResponse
 func (controller *CsfControllerImpl) Delete(c echo.Context) error {
-	csfId := c.Param("csfId")
-	csfIdInt, err := strconv.Atoi(csfId)
+	idPohon := c.Param("idPohon")
+	idPohonInt, err := strconv.Atoi(idPohon)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, web.WebResponse{
 			Code:   http.StatusBadRequest,
@@ -118,7 +118,7 @@ func (controller *CsfControllerImpl) Delete(c echo.Context) error {
 			Data:   err.Error(),
 		})
 	}
-	err = controller.CsfService.Delete(c.Request().Context(), csfIdInt)
+	err = controller.CsfService.Delete(c.Request().Context(), idPohonInt)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,

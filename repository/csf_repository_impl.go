@@ -313,9 +313,9 @@ func (repository *CsfRepositoryImpl) CreateDataTerukur(ctx context.Context, tx *
 
 //		return data, nil
 //	}
-func (repository *CsfRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, csfId int) error {
-	SQL := `DELETE FROM tb_csf WHERE id = ?`
-	_, err := tx.ExecContext(ctx, SQL, csfId)
+func (repository *CsfRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, idPohon int) error {
+	SQL := `DELETE FROM tb_csf WHERE pohon_id = ?`
+	_, err := tx.ExecContext(ctx, SQL, idPohon)
 	return err
 }
 

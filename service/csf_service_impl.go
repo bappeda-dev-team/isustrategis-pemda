@@ -182,7 +182,7 @@ func (service *CsfServiceImpl) Update(ctx context.Context, request web.CsfUpdate
 	}, nil
 }
 
-func (service *CsfServiceImpl) Delete(ctx context.Context, csfId int) error {
+func (service *CsfServiceImpl) Delete(ctx context.Context, idPohon int) error {
 	tx, err := service.DB.Begin()
 	if err != nil {
 		return err
@@ -190,7 +190,7 @@ func (service *CsfServiceImpl) Delete(ctx context.Context, csfId int) error {
 	defer helper.CommitOrRollback(tx)
 
 	// Ambil semua alasan kondisi
-	alasanList, err := service.Repository.FindAlasanByCsfId(ctx, tx, csfId)
+	alasanList, err := service.Repository.FindAlasanByCsfId(ctx, tx, idPohon)
 	if err != nil {
 		return err
 	}
@@ -217,7 +217,7 @@ func (service *CsfServiceImpl) Delete(ctx context.Context, csfId int) error {
 	}
 
 	// Hapus CSF
-	return service.Repository.Delete(ctx, tx, csfId)
+	return service.Repository.Delete(ctx, tx, idPohon)
 }
 
 func (service *CsfServiceImpl) FindById(ctx context.Context, csfId int) (*web.CsfResponse, error) {

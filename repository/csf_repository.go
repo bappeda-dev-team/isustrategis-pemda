@@ -9,7 +9,7 @@ import (
 type CsfRepository interface {
 	Create(ctx context.Context, tx *sql.Tx, csf *domain.Csf) (*domain.Csf, error)
 	Update(ctx context.Context, tx *sql.Tx, csf *domain.Csf) (*domain.Csf, error)
-	Delete(ctx context.Context, tx *sql.Tx, csfId int) error
+	Delete(ctx context.Context, tx *sql.Tx, idPohon int) error
 	FindById(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error)
 	FindByIds(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error)
 	FindAll(ctx context.Context, tx *sql.Tx, pohonId int) ([]domain.Csf, error)
