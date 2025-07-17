@@ -10,7 +10,7 @@ RUN apk add --no-cache git curl unzip openjdk17
 COPY . .
 
 # Build Go binary
-RUN go build -o api main.go
+RUN go build -o api main.go wire_gen.go
 
 # Install Flyway
 ENV FLYWAY_VERSION=11.8.2
