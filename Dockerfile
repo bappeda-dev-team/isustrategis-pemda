@@ -37,4 +37,4 @@ ENV FLYWAY_URL=jdbc:mysql://$DB_HOST:$DB_PORT/$DB_NAME
 ENV FLYWAY_USER=$DB_USER
 ENV FLYWAY_PASSWORD=$DB_PASSWORD
 
-ENTRYPOINT sh -c 'flyway migrate && exec /app/api'
+ENTRYPOINT ["/bin/sh", "-c", "flyway -url=jdbc:mysql://$DB_HOST:$DB_PORT/$DB_NAME -user=$DB_USER -password=$DB_PASSWORD migrate && exec /app/api"]

@@ -32,7 +32,7 @@ func NewServer(e *echo.Echo) *echo.Echo {
 
 func main() {
 
-	app.RunFlyway()
+	// app.RunFlyway()
 
 	server := InitializedServer()
 	host := os.Getenv("host")

@@ -16,7 +16,7 @@ import (
 )
 
 func GetConnection() *sql.DB {
-	godotenv.Load()
+	// Tidak perlu godotenv.Load() di container
 
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
@@ -24,13 +24,27 @@ func GetConnection() *sql.DB {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 
+	missing := []string{}
+	if dbUser == "" {
+		missing = append(missing, "DB_USER")
+	}
+	if dbPassword == "" {
+		missing = append(missing, "DB_PASSWORD")
+	}
 	if dbHost == "" {
-		dbHost = "localhost"
+		missing = append(missing, "DB_HOST")
+	}
+	if dbPort == "" {
+		missing = append(missing, "DB_PORT")
+	}
+	if dbName == "" {
+		missing = append(missing, "DB_NAME")
 	}
 
-	log.Printf("Mencoba koneksi ke database %s di %s:%s...", dbName, dbHost, dbPort)
+	if len(missing) > 0 {
+		log.Fatalf("Missing required environment variables: %v", missing)
+	}
 
-	// Format koneksi MySQL: user:password@tcp(host:port)/dbname?parseTime=true
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPassword, dbHost, dbPort, dbName)
 
 	db, err := sql.Open("mysql", connStr)
@@ -38,35 +52,20 @@ func GetConnection() *sql.DB {
 		log.Fatalf("Error membuka koneksi database: %v", err)
 	}
 
+	// Setup pool
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(100)
 	db.SetConnMaxIdleTime(5 * time.Minute)
 	db.SetConnMaxLifetime(60 * time.Minute)
 
+	// Ping DB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	err = db.PingContext(ctx)
-	if err != nil {
-		log.Printf("Gagal terhubung ke database dalam 10 detik: %v", err)
-		log.Printf("Mencoba koneksi ulang...")
-
-		ctx, cancel = context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-
-		err = db.PingContext(ctx)
-		if err != nil {
-			db.Close()
-			log.Fatalf("Koneksi database gagal setelah percobaan ulang: %v", err)
-		}
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatalf("Gagal konek ke DB: %v", err)
 	}
 
-	log.Printf("Berhasil terhubung ke database %s", dbName)
-	log.Printf("Max Open Connections: %d", db.Stats().MaxOpenConnections)
-	log.Printf("Open Connections: %d", db.Stats().OpenConnections)
-	log.Printf("In Use Connections: %d", db.Stats().InUse)
-	log.Printf("Idle Connections: %d", db.Stats().Idle)
-
+	log.Println("Berhasil terhubung ke database.")
 	return db
 }
 
