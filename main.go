@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"isustrategisService/app"
 	"isustrategisService/docs"
 	"os"
 
@@ -31,8 +30,6 @@ func NewServer(e *echo.Echo) *echo.Echo {
 // @BasePath /
 
 func main() {
-
-	app.RunFlyway()
 
 	server := InitializedServer()
 	host := os.Getenv("host")
