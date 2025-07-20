@@ -82,7 +82,7 @@ flyway -locations=filesystem:./db/migrations info
 
 # Untuk membersihkan database (menghapus semua tabel)
 ```sh
-flyway -url=jdbc:mysql://localhost:3306/db_isustrategis_pemda-user=root -password=agnar -locations=filesystem:./db/migrations migrate
+flyway -url=jdbc:mysql://localhost:3306/db_isustrategis_pemda -user=root -password=agnar -locations=filesystem:./db/migrations migrate
 ```
 
 ###Maintenance Database
