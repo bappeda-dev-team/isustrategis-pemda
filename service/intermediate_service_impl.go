@@ -8,20 +8,30 @@ import (
 	"isustrategisService/model/web"
 	"isustrategisService/repository"
 	"time"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type IntermediateServiceImpl struct {
 	intermediateRepository repository.IntermediateRepository
 	db                     *sql.DB
+	validator              *validator.Validate
 }
 
-func NewIntermediateServiceImpl(intermediateRepository repository.IntermediateRepository, db *sql.DB) *IntermediateServiceImpl {
+func NewIntermediateServiceImpl(intermediateRepository repository.IntermediateRepository, db *sql.DB, validator *validator.Validate) *IntermediateServiceImpl {
 	return &IntermediateServiceImpl{
 		intermediateRepository: intermediateRepository,
-		db:                     db}
+		db:                     db,
+		validator:              validator,
+	}
 }
 
 func (service *IntermediateServiceImpl) Create(ctx context.Context, request web.IntermediateCreateRequest) (*web.IntermediateResponse, error) {
+	err := service.validator.Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
 	tx, err := service.db.Begin()
 	if err != nil {
 		return nil, err
@@ -31,6 +41,7 @@ func (service *IntermediateServiceImpl) Create(ctx context.Context, request web.
 
 	intermediate := &domain.Intermediate{
 		PohonId:       request.PohonId,
+		Tahun:         request.Tahun,
 		FaktorOutcome: request.FaktorOutcome,
 		DataTerukur:   request.DataTerukur,
 	}
@@ -43,6 +54,7 @@ func (service *IntermediateServiceImpl) Create(ctx context.Context, request web.
 	return &web.IntermediateResponse{
 		Id:            intermediate.ID,
 		PohonId:       intermediate.PohonId,
+		Tahun:         intermediate.Tahun,
 		FaktorOutcome: intermediate.FaktorOutcome,
 		DataTerukur:   intermediate.DataTerukur,
 		CreatedAt:     intermediate.CreatedAt.Format(time.DateTime),
@@ -51,6 +63,11 @@ func (service *IntermediateServiceImpl) Create(ctx context.Context, request web.
 }
 
 func (service *IntermediateServiceImpl) Update(ctx context.Context, request web.IntermediateUpdateRequest) (*web.IntermediateResponse, error) {
+	err := service.validator.Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
 	tx, err := service.db.Begin()
 	if err != nil {
 		return nil, err
@@ -64,6 +81,7 @@ func (service *IntermediateServiceImpl) Update(ctx context.Context, request web.
 	}
 
 	intermediate.PohonId = request.PohonId
+	intermediate.Tahun = request.Tahun
 	intermediate.FaktorOutcome = request.FaktorOutcome
 	intermediate.DataTerukur = request.DataTerukur
 
@@ -75,6 +93,7 @@ func (service *IntermediateServiceImpl) Update(ctx context.Context, request web.
 	return &web.IntermediateResponse{
 		Id:            intermediate.ID,
 		PohonId:       intermediate.PohonId,
+		Tahun:         intermediate.Tahun,
 		FaktorOutcome: intermediate.FaktorOutcome,
 		DataTerukur:   intermediate.DataTerukur,
 		CreatedAt:     intermediate.CreatedAt.Format(time.DateTime),
@@ -114,6 +133,7 @@ func (service *IntermediateServiceImpl) FindById(ctx context.Context, id int) (*
 	return &web.IntermediateResponse{
 		Id:            intermediate.ID,
 		PohonId:       intermediate.PohonId,
+		Tahun:         intermediate.Tahun,
 		FaktorOutcome: intermediate.FaktorOutcome,
 		DataTerukur:   intermediate.DataTerukur,
 		CreatedAt:     intermediate.CreatedAt.Format(time.DateTime),
@@ -121,7 +141,7 @@ func (service *IntermediateServiceImpl) FindById(ctx context.Context, id int) (*
 	}, nil
 }
 
-func (service *IntermediateServiceImpl) FindAll(ctx context.Context, pohonId int) ([]web.IntermediateResponse, error) {
+func (service *IntermediateServiceImpl) FindAll(ctx context.Context, tahun string) ([]web.IntermediateResponse, error) {
 	tx, err := service.db.Begin()
 	if err != nil {
 		return nil, err
@@ -129,7 +149,7 @@ func (service *IntermediateServiceImpl) FindAll(ctx context.Context, pohonId int
 
 	defer helper.CommitOrRollback(tx)
 
-	intermediates, err := service.intermediateRepository.FindAll(ctx, tx, pohonId)
+	intermediates, err := service.intermediateRepository.FindAll(ctx, tx, tahun)
 	if err != nil {
 		return nil, err
 	}
@@ -139,6 +159,7 @@ func (service *IntermediateServiceImpl) FindAll(ctx context.Context, pohonId int
 		intermediateResponses = append(intermediateResponses, web.IntermediateResponse{
 			Id:            intermediate.ID,
 			PohonId:       intermediate.PohonId,
+			Tahun:         intermediate.Tahun,
 			FaktorOutcome: intermediate.FaktorOutcome,
 			DataTerukur:   intermediate.DataTerukur,
 			CreatedAt:     intermediate.CreatedAt.Format(time.DateTime),

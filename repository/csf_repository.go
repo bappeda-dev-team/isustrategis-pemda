@@ -12,7 +12,7 @@ type CsfRepository interface {
 	Delete(ctx context.Context, tx *sql.Tx, idPohon int) error
 	FindById(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error)
 	FindByIds(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error)
-	FindAll(ctx context.Context, tx *sql.Tx, pohonId int) ([]domain.Csf, error)
+	FindAll(ctx context.Context, tx *sql.Tx, tahun string) ([]domain.Csf, error)
 
 	// Tambahkan method untuk alasan dan data terukur
 	CreateAlasanKondisi(ctx context.Context, tx *sql.Tx, alasan *domain.AlasanKondisi) (*domain.AlasanKondisi, error)

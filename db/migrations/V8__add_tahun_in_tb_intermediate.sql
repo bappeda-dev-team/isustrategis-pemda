@@ -1,0 +1,1 @@
+ALTER TABLE tb_intermediate ADD COLUMN tahun VARCHAR(255) NOT NULL DEFAULT '';

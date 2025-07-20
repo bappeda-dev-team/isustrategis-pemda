@@ -26,6 +26,11 @@ func NewCsfServiceImpl(repository repository.CsfRepository, db *sql.DB, validato
 }
 
 func (service *CsfServiceImpl) Create(ctx context.Context, request web.CsfCreateRequest) (*web.CsfResponse, error) {
+	err := service.Validator.Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
 	tx, err := service.DB.Begin()
 	if err != nil {
 		return nil, err
@@ -36,6 +41,7 @@ func (service *CsfServiceImpl) Create(ctx context.Context, request web.CsfCreate
 	csf := &domain.Csf{
 		PohonId:                    request.PohonId,
 		PernyataanKondisiStrategis: request.PernyataanKondisiStrategis,
+		Tahun:                      request.Tahun,
 	}
 
 	csf, err = service.Repository.Create(ctx, tx, csf)
@@ -92,6 +98,7 @@ func (service *CsfServiceImpl) Create(ctx context.Context, request web.CsfCreate
 	return &web.CsfResponse{
 		Id:                         csf.Id,
 		PohonId:                    csf.PohonId,
+		Tahun:                      csf.Tahun,
 		PernyataanKondisiStrategis: csf.PernyataanKondisiStrategis,
 		AlasanKondisi:              alasanResponses,
 		CreatedAt:                  csf.CreatedAt,
@@ -100,6 +107,11 @@ func (service *CsfServiceImpl) Create(ctx context.Context, request web.CsfCreate
 }
 
 func (service *CsfServiceImpl) Update(ctx context.Context, request web.CsfUpdateRequest) (*web.CsfResponse, error) {
+	err := service.Validator.Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
 	tx, err := service.DB.Begin()
 	if err != nil {
 		return nil, err
@@ -116,6 +128,7 @@ func (service *CsfServiceImpl) Update(ctx context.Context, request web.CsfUpdate
 	csf := &domain.Csf{
 		Id:                         request.Id,
 		PohonId:                    request.PohonId,
+		Tahun:                      request.Tahun,
 		PernyataanKondisiStrategis: request.PernyataanKondisiStrategis,
 		AlasanKondisi:              make([]domain.AlasanKondisi, 0),
 	}
@@ -175,6 +188,7 @@ func (service *CsfServiceImpl) Update(ctx context.Context, request web.CsfUpdate
 	return &web.CsfResponse{
 		Id:                         updatedCsf.Id,
 		PohonId:                    updatedCsf.PohonId,
+		Tahun:                      updatedCsf.Tahun,
 		PernyataanKondisiStrategis: updatedCsf.PernyataanKondisiStrategis,
 		AlasanKondisi:              alasanResponses,
 		CreatedAt:                  updatedCsf.CreatedAt,
@@ -270,6 +284,7 @@ func (service *CsfServiceImpl) FindById(ctx context.Context, csfId int) (*web.Cs
 	return &web.CsfResponse{
 		Id:                         csf.Id,
 		PohonId:                    csf.PohonId,
+		Tahun:                      csf.Tahun,
 		PernyataanKondisiStrategis: csf.PernyataanKondisiStrategis,
 		AlasanKondisi:              alasanResponses,
 		CreatedAt:                  csf.CreatedAt,
@@ -277,14 +292,14 @@ func (service *CsfServiceImpl) FindById(ctx context.Context, csfId int) (*web.Cs
 	}, nil
 }
 
-func (service *CsfServiceImpl) FindAll(ctx context.Context, pohonId int) ([]web.CsfResponse, error) {
+func (service *CsfServiceImpl) FindAll(ctx context.Context, tahun string) ([]web.CsfResponse, error) {
 	tx, err := service.DB.Begin()
 	if err != nil {
 		return nil, err
 	}
 	defer helper.CommitOrRollback(tx)
 
-	csfs, err := service.Repository.FindAll(ctx, tx, pohonId)
+	csfs, err := service.Repository.FindAll(ctx, tx, tahun)
 	if err != nil {
 		return nil, err
 	}
@@ -329,6 +344,7 @@ func (service *CsfServiceImpl) FindAll(ctx context.Context, pohonId int) ([]web.
 		csfResponses = append(csfResponses, web.CsfResponse{
 			Id:                         csf.Id,
 			PohonId:                    csf.PohonId,
+			Tahun:                      csf.Tahun,
 			PernyataanKondisiStrategis: csf.PernyataanKondisiStrategis,
 			AlasanKondisi:              alasanResponses,
 			CreatedAt:                  csf.CreatedAt,

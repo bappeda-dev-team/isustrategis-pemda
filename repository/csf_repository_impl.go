@@ -14,10 +14,10 @@ func NewCsfRepositoryImpl() *CsfRepositoryImpl {
 }
 
 func (repository *CsfRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, csf *domain.Csf) (*domain.Csf, error) {
-	SQL := `INSERT INTO tb_csf(pohon_id, pernyataan_kondisi_strategis, created_at, updated_at) 
-			VALUES (?, ?, NOW(), NOW())`
+	SQL := `INSERT INTO tb_csf(pohon_id, pernyataan_kondisi_strategis, tahun, created_at, updated_at) 
+			VALUES (?, ?, ?, NOW(), NOW())`
 
-	result, err := tx.ExecContext(ctx, SQL, csf.PohonId, csf.PernyataanKondisiStrategis)
+	result, err := tx.ExecContext(ctx, SQL, csf.PohonId, csf.PernyataanKondisiStrategis, csf.Tahun)
 	if err != nil {
 		return nil, err
 	}
@@ -46,10 +46,11 @@ func (repository *CsfRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, csf
 	SQL := `UPDATE tb_csf SET 
             pohon_id = ?, 
             pernyataan_kondisi_strategis = ?,
+            tahun = ?,
             updated_at = NOW()
             WHERE id = ?`
 
-	result, err := tx.ExecContext(ctx, SQL, csf.PohonId, csf.PernyataanKondisiStrategis, csf.Id)
+	result, err := tx.ExecContext(ctx, SQL, csf.PohonId, csf.PernyataanKondisiStrategis, csf.Tahun, csf.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -320,7 +321,7 @@ func (repository *CsfRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, idP
 }
 
 func (repository *CsfRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error) {
-	SQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, created_at, updated_at 
+	SQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, tahun, created_at, updated_at
             FROM tb_csf WHERE id = ?`
 
 	csf := &domain.Csf{}
@@ -328,6 +329,7 @@ func (repository *CsfRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, c
 		&csf.Id,
 		&csf.PohonId,
 		&csf.PernyataanKondisiStrategis,
+		&csf.Tahun,
 		&csf.CreatedAt,
 		&csf.UpdatedAt,
 	)
@@ -356,7 +358,7 @@ func (repository *CsfRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, c
 
 func (repository *CsfRepositoryImpl) FindByIds(ctx context.Context, tx *sql.Tx, csfId int) (*domain.Csf, error) {
 	// Get CSF data
-	csfSQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, created_at, updated_at 
+	csfSQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, tahun, created_at, updated_at  
                FROM tb_csf WHERE id = ?`
 
 	csf := &domain.Csf{}
@@ -364,6 +366,7 @@ func (repository *CsfRepositoryImpl) FindByIds(ctx context.Context, tx *sql.Tx, 
 		&csf.Id,
 		&csf.PohonId,
 		&csf.PernyataanKondisiStrategis,
+		&csf.Tahun,
 		&csf.CreatedAt,
 		&csf.UpdatedAt,
 	)
@@ -429,11 +432,11 @@ func (repository *CsfRepositoryImpl) FindByIds(ctx context.Context, tx *sql.Tx, 
 	return csf, nil
 }
 
-func (repository *CsfRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx, pohonId int) ([]domain.Csf, error) {
-	SQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, created_at, updated_at 
-			FROM tb_csf WHERE pohon_id = ?`
+func (repository *CsfRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx, tahun string) ([]domain.Csf, error) {
+	SQL := `SELECT id, pohon_id, pernyataan_kondisi_strategis, tahun, created_at, updated_at 
+			FROM tb_csf WHERE tahun = ?`
 
-	rows, err := tx.QueryContext(ctx, SQL, pohonId)
+	rows, err := tx.QueryContext(ctx, SQL, tahun)
 	if err != nil {
 		return nil, err
 	}
@@ -446,6 +449,7 @@ func (repository *CsfRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx, po
 			&csf.Id,
 			&csf.PohonId,
 			&csf.PernyataanKondisiStrategis,
+			&csf.Tahun,
 			&csf.CreatedAt,
 			&csf.UpdatedAt,
 		)

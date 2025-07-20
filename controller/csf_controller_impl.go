@@ -62,6 +62,10 @@ func (controller *CsfControllerImpl) Create(c echo.Context) error {
 // @Produce json
 // @Param id path int true "Csf ID"
 // @Param csf body web.CsfUpdateRequest true "Csf"
+// @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /csf/:csfId [put]
 func (controller *CsfControllerImpl) Update(c echo.Context) error {
 	request := web.CsfUpdateRequest{}
 	err := c.Bind(&request) // Tambahkan ini untuk bind JSON request ke struct
@@ -108,6 +112,9 @@ func (controller *CsfControllerImpl) Update(c echo.Context) error {
 // @Produce json
 // @Param csfId path int true "Csf ID"
 // @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /csf/:idPohon [delete]
 func (controller *CsfControllerImpl) Delete(c echo.Context) error {
 	idPohon := c.Param("idPohon")
 	idPohonInt, err := strconv.Atoi(idPohon)
@@ -141,6 +148,9 @@ func (controller *CsfControllerImpl) Delete(c echo.Context) error {
 // @Produce json
 // @Param csfId path int true "Csf ID"
 // @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /csf/detail/:csfId [get]
 func (controller *CsfControllerImpl) FindById(c echo.Context) error {
 	csfId := c.Param("csfId")
 	csfIdInt, err := strconv.Atoi(csfId)
@@ -172,20 +182,15 @@ func (controller *CsfControllerImpl) FindById(c echo.Context) error {
 // @Tags Csf
 // @Accept json
 // @Produce json
-// @Param pohonId path int true "Pohon ID"
+// @Param tahun path string true "Tahun"
 // @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /csf/:tahun [get]
 func (controller *CsfControllerImpl) FindAll(c echo.Context) error {
-	pohonId := c.Param("pohonId")
-	pohonIdInt, err := strconv.Atoi(pohonId)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
+	tahun := c.Param("tahun")
 
-	response, err := controller.CsfService.FindAll(c.Request().Context(), pohonIdInt)
+	response, err := controller.CsfService.FindAll(c.Request().Context(), tahun)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,

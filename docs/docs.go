@@ -69,6 +69,419 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/csf/:csfId": {
+            "put": {
+                "description": "Update Csf",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Csf"
+                ],
+                "summary": "Update Csf",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Csf ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Csf",
+                        "name": "csf",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/web.CsfUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/csf/:idPohon": {
+            "delete": {
+                "description": "Delete Csf",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Csf"
+                ],
+                "summary": "Delete Csf",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Csf ID",
+                        "name": "csfId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/csf/:tahun": {
+            "get": {
+                "description": "Find All Csf",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Csf"
+                ],
+                "summary": "Find All Csf",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tahun",
+                        "name": "tahun",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/csf/detail/:csfId": {
+            "get": {
+                "description": "Find Csf By Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Csf"
+                ],
+                "summary": "Find Csf By Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Csf ID",
+                        "name": "csfId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/intermediate": {
+            "post": {
+                "description": "Create Intermediate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intermediate"
+                ],
+                "summary": "Create Intermediate",
+                "parameters": [
+                    {
+                        "description": "Intermediate",
+                        "name": "intermediate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/web.IntermediateCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/intermediate/:id": {
+            "put": {
+                "description": "Update Intermediate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intermediate"
+                ],
+                "summary": "Update Intermediate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Intermediate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Intermediate",
+                        "name": "intermediate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/web.IntermediateUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/intermediate/:pohon_id": {
+            "delete": {
+                "description": "Delete Intermediate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intermediate"
+                ],
+                "summary": "Delete Intermediate",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Intermediate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/intermediate/:tahun": {
+            "get": {
+                "description": "Find All Intermediate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intermediate"
+                ],
+                "summary": "Find All Intermediate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tahun",
+                        "name": "tahun",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/intermediate/detail/:id": {
+            "get": {
+                "description": "Find Intermediate By Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intermediate"
+                ],
+                "summary": "Find Intermediate By Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Intermediate ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.WebResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -110,7 +523,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "pernyataan_kondisi_strategis",
-                "pohon_id"
+                "pohon_id",
+                "tahun"
             ],
             "properties": {
                 "alasan_kondisi": {
@@ -124,6 +538,9 @@ const docTemplate = `{
                 },
                 "pohon_id": {
                     "type": "integer"
+                },
+                "tahun": {
+                    "type": "string"
                 }
             }
         },
@@ -132,7 +549,8 @@ const docTemplate = `{
             "required": [
                 "id",
                 "pernyataan_kondisi_strategis",
-                "pohon_id"
+                "pohon_id",
+                "tahun"
             ],
             "properties": {
                 "alasan_kondisi": {
@@ -149,6 +567,9 @@ const docTemplate = `{
                 },
                 "pohon_id": {
                     "type": "integer"
+                },
+                "tahun": {
+                    "type": "string"
                 }
             }
         },
@@ -171,6 +592,55 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "web.IntermediateCreateRequest": {
+            "type": "object",
+            "required": [
+                "data_terukur",
+                "faktor_outcome",
+                "pohon_id",
+                "tahun"
+            ],
+            "properties": {
+                "data_terukur": {
+                    "type": "string"
+                },
+                "faktor_outcome": {
+                    "type": "string"
+                },
+                "pohon_id": {
+                    "type": "integer"
+                },
+                "tahun": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.IntermediateUpdateRequest": {
+            "type": "object",
+            "required": [
+                "data_terukur",
+                "faktor_outcome",
+                "pohon_id",
+                "tahun"
+            ],
+            "properties": {
+                "data_terukur": {
+                    "type": "string"
+                },
+                "faktor_outcome": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "pohon_id": {
+                    "type": "integer"
+                },
+                "tahun": {
+                    "type": "string"
                 }
             }
         },

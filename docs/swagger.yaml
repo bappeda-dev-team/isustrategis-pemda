@@ -32,9 +32,12 @@ definitions:
         type: string
       pohon_id:
         type: integer
+      tahun:
+        type: string
     required:
     - pernyataan_kondisi_strategis
     - pohon_id
+    - tahun
     type: object
   web.CsfUpdateRequest:
     properties:
@@ -48,10 +51,13 @@ definitions:
         type: string
       pohon_id:
         type: integer
+      tahun:
+        type: string
     required:
     - id
     - pernyataan_kondisi_strategis
     - pohon_id
+    - tahun
     type: object
   web.DataTerukurCreateRequest:
     properties:
@@ -66,6 +72,40 @@ definitions:
         type: string
       id:
         type: integer
+    type: object
+  web.IntermediateCreateRequest:
+    properties:
+      data_terukur:
+        type: string
+      faktor_outcome:
+        type: string
+      pohon_id:
+        type: integer
+      tahun:
+        type: string
+    required:
+    - data_terukur
+    - faktor_outcome
+    - pohon_id
+    - tahun
+    type: object
+  web.IntermediateUpdateRequest:
+    properties:
+      data_terukur:
+        type: string
+      faktor_outcome:
+        type: string
+      id:
+        type: integer
+      pohon_id:
+        type: integer
+      tahun:
+        type: string
+    required:
+    - data_terukur
+    - faktor_outcome
+    - pohon_id
+    - tahun
     type: object
   web.WebResponse:
     description: Web Response
@@ -120,4 +160,276 @@ paths:
       summary: Create Csf
       tags:
       - Csf
+  /csf/:csfId:
+    put:
+      consumes:
+      - application/json
+      description: Update Csf
+      parameters:
+      - description: Csf ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Csf
+        in: body
+        name: csf
+        required: true
+        schema:
+          $ref: '#/definitions/web.CsfUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Update Csf
+      tags:
+      - Csf
+  /csf/:idPohon:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Csf
+      parameters:
+      - description: Csf ID
+        in: path
+        name: csfId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Delete Csf
+      tags:
+      - Csf
+  /csf/:tahun:
+    get:
+      consumes:
+      - application/json
+      description: Find All Csf
+      parameters:
+      - description: Tahun
+        in: path
+        name: tahun
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Find All Csf
+      tags:
+      - Csf
+  /csf/detail/:csfId:
+    get:
+      consumes:
+      - application/json
+      description: Find Csf By Id
+      parameters:
+      - description: Csf ID
+        in: path
+        name: csfId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Find Csf By Id
+      tags:
+      - Csf
+  /intermediate:
+    post:
+      consumes:
+      - application/json
+      description: Create Intermediate
+      parameters:
+      - description: Intermediate
+        in: body
+        name: intermediate
+        required: true
+        schema:
+          $ref: '#/definitions/web.IntermediateCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Create Intermediate
+      tags:
+      - Intermediate
+  /intermediate/:id:
+    put:
+      consumes:
+      - application/json
+      description: Update Intermediate
+      parameters:
+      - description: Intermediate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Intermediate
+        in: body
+        name: intermediate
+        required: true
+        schema:
+          $ref: '#/definitions/web.IntermediateUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Update Intermediate
+      tags:
+      - Intermediate
+  /intermediate/:pohon_id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Intermediate
+      parameters:
+      - description: Intermediate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Delete Intermediate
+      tags:
+      - Intermediate
+  /intermediate/:tahun:
+    get:
+      consumes:
+      - application/json
+      description: Find All Intermediate
+      parameters:
+      - description: Tahun
+        in: path
+        name: tahun
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Find All Intermediate
+      tags:
+      - Intermediate
+  /intermediate/detail/:id:
+    get:
+      consumes:
+      - application/json
+      description: Find Intermediate By Id
+      parameters:
+      - description: Intermediate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Find Intermediate By Id
+      tags:
+      - Intermediate
 swagger: "2.0"

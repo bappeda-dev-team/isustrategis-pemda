@@ -132,16 +132,9 @@ func (controller *OutcomeControllerImpl) FindById(c echo.Context) error {
 }
 
 func (controller *OutcomeControllerImpl) FindAll(c echo.Context) error {
-	pohonId, err := strconv.Atoi(c.Param("pohonId"))
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
+	tahun := c.Param("tahun")
 
-	response, err := controller.outcomeService.FindAll(c.Request().Context(), pohonId)
+	response, err := controller.outcomeService.FindAll(c.Request().Context(), tahun)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,

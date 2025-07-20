@@ -6,6 +6,7 @@ type CsfResponse struct {
 	Id                         int                     `json:"id"`
 	PohonId                    int                     `json:"pohon_id"`
 	PernyataanKondisiStrategis string                  `json:"pernyataan_kondisi_strategis"`
+	Tahun                      string                  `json:"tahun"`
 	AlasanKondisi              []AlasanKondisiResponse `json:"alasan_kondisi"`
 	CreatedAt                  time.Time               `json:"created_at"`
 	UpdatedAt                  time.Time               `json:"updated_at"`

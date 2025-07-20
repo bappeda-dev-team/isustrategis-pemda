@@ -6,6 +6,7 @@ type Csf struct {
 	Id                         int
 	PohonId                    int
 	PernyataanKondisiStrategis string
+	Tahun                      string
 	CreatedAt                  time.Time
 	UpdatedAt                  time.Time
 	AlasanKondisi              []AlasanKondisi

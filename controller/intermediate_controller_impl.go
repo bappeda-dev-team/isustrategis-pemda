@@ -17,6 +17,16 @@ func NewIntermediateControllerImpl(intermediateService service.IntermediateServi
 	return &IntermediateControllerImpl{intermediateService: intermediateService}
 }
 
+// @Summary Create Intermediate
+// @Description Create Intermediate
+// @Tags Intermediate
+// @Accept json
+// @Produce json
+// @Param intermediate body web.IntermediateCreateRequest true "Intermediate"
+// @Success 201 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /intermediate [post]
 func (controller *IntermediateControllerImpl) Create(c echo.Context) error {
 	request := web.IntermediateCreateRequest{}
 	err := c.Bind(&request)
@@ -44,6 +54,17 @@ func (controller *IntermediateControllerImpl) Create(c echo.Context) error {
 	})
 }
 
+// @Summary Update Intermediate
+// @Description Update Intermediate
+// @Tags Intermediate
+// @Accept json
+// @Produce json
+// @Param id path int true "Intermediate ID"
+// @Param intermediate body web.IntermediateUpdateRequest true "Intermediate"
+// @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /intermediate/:id [put]
 func (controller *IntermediateControllerImpl) Update(c echo.Context) error {
 	request := web.IntermediateUpdateRequest{}
 	err := c.Bind(&request)
@@ -80,6 +101,16 @@ func (controller *IntermediateControllerImpl) Update(c echo.Context) error {
 	})
 }
 
+// @Summary Delete Intermediate
+// @Description Delete Intermediate
+// @Tags Intermediate
+// @Accept json
+// @Produce json
+// @Param id path int true "Intermediate ID"
+// @Success 200 {object} nil
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /intermediate/:pohon_id [delete]
 func (controller *IntermediateControllerImpl) Delete(c echo.Context) error {
 	pohonId, err := strconv.Atoi(c.Param("pohon_id"))
 	if err != nil {
@@ -106,6 +137,16 @@ func (controller *IntermediateControllerImpl) Delete(c echo.Context) error {
 	})
 }
 
+// @Summary Find Intermediate By Id
+// @Description Find Intermediate By Id
+// @Tags Intermediate
+// @Accept json
+// @Produce json
+// @Param id path int true "Intermediate ID"
+// @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /intermediate/detail/:id [get]
 func (controller *IntermediateControllerImpl) FindById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -132,17 +173,20 @@ func (controller *IntermediateControllerImpl) FindById(c echo.Context) error {
 	})
 }
 
+// @Summary Find All Intermediate
+// @Description Find All Intermediate
+// @Tags Intermediate
+// @Accept json
+// @Produce json
+// @Param tahun path string true "Tahun"
+// @Success 200 {object} web.WebResponse
+// @Failure 400 {object} web.WebResponse
+// @Failure 500 {object} web.WebResponse
+// @Router /intermediate/:tahun [get]
 func (controller *IntermediateControllerImpl) FindAll(c echo.Context) error {
-	pohonId, err := strconv.Atoi(c.Param("pohon_id"))
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, web.WebResponse{
-			Code:   http.StatusBadRequest,
-			Status: "BAD REQUEST",
-			Data:   err.Error(),
-		})
-	}
+	tahun := c.Param("tahun")
 
-	response, err := controller.intermediateService.FindAll(c.Request().Context(), pohonId)
+	response, err := controller.intermediateService.FindAll(c.Request().Context(), tahun)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, web.WebResponse{
 			Code:   http.StatusInternalServerError,

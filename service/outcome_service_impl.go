@@ -8,19 +8,30 @@ import (
 	"isustrategisService/model/web"
 	"isustrategisService/repository"
 	"time"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type OutcomeServiceImpl struct {
 	outcomeRepository repository.OutcomeRepository
 	db                *sql.DB
+	validator         *validator.Validate
 }
 
-func NewOutcomeServiceImpl(outcomeRepository repository.OutcomeRepository, db *sql.DB) *OutcomeServiceImpl {
-	return &OutcomeServiceImpl{outcomeRepository: outcomeRepository,
-		db: db}
+func NewOutcomeServiceImpl(outcomeRepository repository.OutcomeRepository, db *sql.DB, validator *validator.Validate) *OutcomeServiceImpl {
+	return &OutcomeServiceImpl{
+		outcomeRepository: outcomeRepository,
+		db:                db,
+		validator:         validator,
+	}
 }
 
 func (service *OutcomeServiceImpl) Create(ctx context.Context, request web.OutcomeCreateRequest) (*web.OutcomeResponse, error) {
+	err := service.validator.Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
 	tx, err := service.db.Begin()
 	if err != nil {
 		return nil, err
@@ -31,6 +42,7 @@ func (service *OutcomeServiceImpl) Create(ctx context.Context, request web.Outco
 		PohonId:       request.PohonId,
 		FaktorOutcome: helper.EmptyStringIfNull(request.FaktorOutcome),
 		DataTerukur:   helper.EmptyStringIfNull(request.DataTerukur),
+		Tahun:         request.Tahun,
 	}
 
 	outcome, err = service.outcomeRepository.Create(ctx, tx, outcome)
@@ -40,6 +52,7 @@ func (service *OutcomeServiceImpl) Create(ctx context.Context, request web.Outco
 
 	return &web.OutcomeResponse{
 		PohonId:       outcome.PohonId,
+		Tahun:         outcome.Tahun,
 		FaktorOutcome: outcome.FaktorOutcome,
 		DataTerukur:   outcome.DataTerukur,
 		CreatedAt:     outcome.CreatedAt.Format(time.DateTime),
@@ -60,6 +73,7 @@ func (service *OutcomeServiceImpl) Update(ctx context.Context, request web.Outco
 	}
 
 	outcome.PohonId = request.PohonId
+	outcome.Tahun = request.Tahun
 	outcome.FaktorOutcome = helper.EmptyStringIfNull(request.FaktorOutcome)
 	outcome.DataTerukur = helper.EmptyStringIfNull(request.DataTerukur)
 
@@ -70,6 +84,7 @@ func (service *OutcomeServiceImpl) Update(ctx context.Context, request web.Outco
 
 	return &web.OutcomeResponse{
 		PohonId:       outcome.PohonId,
+		Tahun:         outcome.Tahun,
 		FaktorOutcome: outcome.FaktorOutcome,
 		DataTerukur:   outcome.DataTerukur,
 		CreatedAt:     outcome.CreatedAt.Format(time.DateTime),
@@ -102,6 +117,7 @@ func (service *OutcomeServiceImpl) FindById(ctx context.Context, id int) (*web.O
 	return &web.OutcomeResponse{
 		Id:            outcome.ID,
 		PohonId:       outcome.PohonId,
+		Tahun:         outcome.Tahun,
 		FaktorOutcome: outcome.FaktorOutcome,
 		DataTerukur:   outcome.DataTerukur,
 		CreatedAt:     outcome.CreatedAt.Format(time.DateTime),
@@ -109,14 +125,14 @@ func (service *OutcomeServiceImpl) FindById(ctx context.Context, id int) (*web.O
 	}, nil
 }
 
-func (service *OutcomeServiceImpl) FindAll(ctx context.Context, pohonId int) ([]web.OutcomeResponse, error) {
+func (service *OutcomeServiceImpl) FindAll(ctx context.Context, tahun string) ([]web.OutcomeResponse, error) {
 	tx, err := service.db.Begin()
 	if err != nil {
 		return nil, err
 	}
 	defer helper.CommitOrRollback(tx)
 
-	outcomes, err := service.outcomeRepository.FindAll(ctx, tx, pohonId)
+	outcomes, err := service.outcomeRepository.FindAll(ctx, tx, tahun)
 	if err != nil {
 		return nil, err
 	}
@@ -126,6 +142,7 @@ func (service *OutcomeServiceImpl) FindAll(ctx context.Context, pohonId int) ([]
 		outcomeResponses = append(outcomeResponses, web.OutcomeResponse{
 			Id:            outcome.ID,
 			PohonId:       outcome.PohonId,
+			Tahun:         outcome.Tahun,
 			FaktorOutcome: outcome.FaktorOutcome,
 			DataTerukur:   outcome.DataTerukur,
 			CreatedAt:     outcome.CreatedAt.Format(time.DateTime),

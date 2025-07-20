@@ -26,10 +26,10 @@ func InitializedServer() *echo.Echo {
 	csfServiceImpl := service.NewCsfServiceImpl(csfRepositoryImpl, db, validate)
 	csfControllerImpl := controller.NewCsfControllerImpl(csfServiceImpl)
 	outcomeRepositoryImpl := repository.NewOutcomeRepositoryImpl()
-	outcomeServiceImpl := service.NewOutcomeServiceImpl(outcomeRepositoryImpl, db)
+	outcomeServiceImpl := service.NewOutcomeServiceImpl(outcomeRepositoryImpl, db, validate)
 	outcomeControllerImpl := controller.NewOutcomeControllerImpl(outcomeServiceImpl)
 	intermediateRepositoryImpl := repository.NewIntermediateRepositoryImpl()
-	intermediateServiceImpl := service.NewIntermediateServiceImpl(intermediateRepositoryImpl, db)
+	intermediateServiceImpl := service.NewIntermediateServiceImpl(intermediateRepositoryImpl, db, validate)
 	intermediateControllerImpl := controller.NewIntermediateControllerImpl(intermediateServiceImpl)
 	echoEcho := app.NewRouter(csfControllerImpl, outcomeControllerImpl, intermediateControllerImpl)
 	return echoEcho

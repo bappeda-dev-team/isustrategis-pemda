@@ -3,6 +3,7 @@ package web
 type CsfCreateRequest struct {
 	PohonId                    int                          `json:"pohon_id" validate:"required"`
 	PernyataanKondisiStrategis string                       `json:"pernyataan_kondisi_strategis" validate:"required"`
+	Tahun                      string                       `json:"tahun" validate:"required"`
 	AlasanKondisi              []AlasanKondisiCreateRequest `json:"alasan_kondisi"`
 }
 
