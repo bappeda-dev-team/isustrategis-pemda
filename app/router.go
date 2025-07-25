@@ -2,7 +2,6 @@ package app
 
 import (
 	"isustrategisService/controller"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -14,16 +13,6 @@ func NewRouter(csfController controller.CsfController, outcomeController control
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"}, // Atau spesifik: []string{"http://localhost:3000"}
-		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodOptions},
-		AllowHeaders: []string{
-			echo.HeaderOrigin,
-			echo.HeaderContentType,
-			echo.HeaderAccept,
-			echo.HeaderAuthorization,
-		},
-	}))
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
