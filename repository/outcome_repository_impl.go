@@ -13,8 +13,8 @@ func NewOutcomeRepositoryImpl() *OutcomeRepositoryImpl {
 }
 
 func (repository *OutcomeRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, outcome *domain.Outcome) (*domain.Outcome, error) {
-	SQL := `INSERT INTO tb_outcome(pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())`
-	_, err := tx.ExecContext(ctx, SQL, outcome.PohonId, outcome.FaktorOutcome, outcome.DataTerukur, outcome.Tahun)
+	SQL := `INSERT INTO tb_outcome(pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at, parent_id) VALUES (?, ?, ?, ?, NOW(), NOW(), ?)`
+	_, err := tx.ExecContext(ctx, SQL, outcome.PohonId, outcome.FaktorOutcome, outcome.DataTerukur, outcome.Tahun, outcome.ParentId)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (repository *OutcomeRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx,
 	return nil
 }
 func (repository *OutcomeRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, outcomeId int) (*domain.Outcome, error) {
-	SQL := `SELECT id, pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at FROM tb_outcome WHERE id = ?`
+	SQL := `SELECT id, pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at, parent_id FROM tb_outcome WHERE id = ?`
 	var outcome domain.Outcome
 	err := tx.QueryRowContext(ctx, SQL, outcomeId).Scan(
 		&outcome.ID,
@@ -52,6 +52,7 @@ func (repository *OutcomeRepositoryImpl) FindById(ctx context.Context, tx *sql.T
 		&outcome.Tahun,
 		&outcome.CreatedAt,
 		&outcome.UpdatedAt,
+		&outcome.ParentId,
 	)
 	if err != nil {
 		return nil, err
@@ -61,7 +62,7 @@ func (repository *OutcomeRepositoryImpl) FindById(ctx context.Context, tx *sql.T
 }
 
 func (repository *OutcomeRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx, tahun string) ([]domain.Outcome, error) {
-	SQL := `SELECT id, pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at FROM tb_outcome WHERE tahun = ?`
+	SQL := `SELECT id, pohon_id, faktor_outcome, data_terukur, tahun, created_at, updated_at, parent_id FROM tb_outcome WHERE tahun = ?`
 	rows, err := tx.QueryContext(ctx, SQL, tahun)
 	if err != nil {
 		return nil, err
@@ -79,6 +80,7 @@ func (repository *OutcomeRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx
 			&outcome.Tahun,
 			&outcome.CreatedAt,
 			&outcome.UpdatedAt,
+			&outcome.ParentId,
 		)
 		if err != nil {
 			return nil, err

@@ -1,0 +1,1 @@
+ALTER TABLE tb_outcome ADD COLUMN parent_id INT NULL;

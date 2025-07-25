@@ -8,6 +8,7 @@ type Outcome struct {
 	Tahun         string
 	FaktorOutcome string
 	DataTerukur   string
+	ParentId      *int
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 }

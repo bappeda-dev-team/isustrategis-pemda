@@ -3,6 +3,7 @@ package web
 type OutcomeResponse struct {
 	Id            int    `json:"id,omitempty"`
 	PohonId       int    `json:"pohon_id"`
+	ParentId      *int   `json:"parent_id"`
 	Tahun         string `json:"tahun"`
 	FaktorOutcome string `json:"faktor_outcome"`
 	DataTerukur   string `json:"data_terukur"`

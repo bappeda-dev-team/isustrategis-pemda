@@ -43,6 +43,7 @@ func (service *OutcomeServiceImpl) Create(ctx context.Context, request web.Outco
 		FaktorOutcome: helper.EmptyStringIfNull(request.FaktorOutcome),
 		DataTerukur:   helper.EmptyStringIfNull(request.DataTerukur),
 		Tahun:         request.Tahun,
+		ParentId:      request.ParentId,
 	}
 
 	outcome, err = service.outcomeRepository.Create(ctx, tx, outcome)
@@ -57,6 +58,7 @@ func (service *OutcomeServiceImpl) Create(ctx context.Context, request web.Outco
 		DataTerukur:   outcome.DataTerukur,
 		CreatedAt:     outcome.CreatedAt.Format(time.DateTime),
 		UpdatedAt:     outcome.UpdatedAt.Format(time.DateTime),
+		ParentId:      outcome.ParentId,
 	}, nil
 }
 
@@ -122,6 +124,7 @@ func (service *OutcomeServiceImpl) FindById(ctx context.Context, id int) (*web.O
 		DataTerukur:   outcome.DataTerukur,
 		CreatedAt:     outcome.CreatedAt.Format(time.DateTime),
 		UpdatedAt:     outcome.UpdatedAt.Format(time.DateTime),
+		ParentId:      outcome.ParentId,
 	}, nil
 }
 
@@ -142,6 +145,7 @@ func (service *OutcomeServiceImpl) FindAll(ctx context.Context, tahun string) ([
 		outcomeResponses = append(outcomeResponses, web.OutcomeResponse{
 			Id:            outcome.ID,
 			PohonId:       outcome.PohonId,
+			ParentId:      outcome.ParentId,
 			Tahun:         outcome.Tahun,
 			FaktorOutcome: outcome.FaktorOutcome,
 			DataTerukur:   outcome.DataTerukur,
