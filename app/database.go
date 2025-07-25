@@ -16,13 +16,18 @@ import (
 )
 
 func GetConnection() *sql.DB {
-	// Tidak perlu godotenv.Load() di container
+	godotenv.Load()
 
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
+
+	log.Printf("DB_USER: %s", os.Getenv("DB_USER"))
+	log.Printf("DB_HOST: %s", os.Getenv("DB_HOST"))
+	log.Printf("DB_PORT: %s", os.Getenv("DB_PORT"))
+	log.Printf("DB_NAME: %s", os.Getenv("DB_NAME"))
 
 	missing := []string{}
 	if dbUser == "" {
